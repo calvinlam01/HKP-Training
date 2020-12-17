@@ -1,1 +1,46 @@
+public class Solution {
+    //This method takes an array sorted in ascending order and returns the starting and ending position of the target value
+    public static int[] searchRange(int[] nums, int target){
+        /**
+         * first, last, mid used for keeping track of pointers in binary search
+         * positionF, positionL keep track of starting and ending position of target value
+         * notFound stores the return value if the target is not found
+         */
+        int first=0;
+        int last=nums.length-1;
+        int mid=(first+last)/2;
+        int positionF;
+        int positionL;
+        int[] notFound={-1,-1};
 
+        //Base case for if the array is empty and if the first value is already larger than target value
+        if(nums.length<1 || nums[0]>target)
+            return notFound;
+
+        //Binary search to find an efficient mid position
+        while(first<=last){
+            mid=(first+last)/2;
+            if(nums[mid]==target)
+                break;
+            else if(nums[mid]>target)
+                last=mid-1;
+            else
+                first=mid+1;
+
+        }
+        /**
+         * First checks if mid equals target, target is not found otherwise.
+         * Slowly shifts positionF and positionL until the true starting and ending positions of targe are found
+         */
+        if(nums[mid] != target)
+            return notFound;
+        positionF=mid;
+        positionL=mid;
+        while(positionF-1 != -1 && nums[positionF-1] == target)
+            positionF--;
+        while(positionL+1 != nums.length &&nums[positionL+1] == target)
+            positionL++;
+        int position []={positionF,positionL};
+        return position;
+    }
+}
